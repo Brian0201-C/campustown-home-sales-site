@@ -1,0 +1,254 @@
+{
+ "total_rows": 35442,
+ "rows_used": 35371,
+ "rows_excluded_price": 71,
+ "price_rule": [
+  10000,
+  5000000
+ ],
+ "overall_median_price": 410000,
+ "sale_years": [
+  2023,
+  2026
+ ],
+ "by_year": [
+  {
+   "year": 2023,
+   "median_price": 399000,
+   "sales": 9583
+  },
+  {
+   "year": 2024,
+   "median_price": 410000,
+   "sales": 11632
+  },
+  {
+   "year": 2025,
+   "median_price": 424900,
+   "sales": 12278
+  },
+  {
+   "year": 2026,
+   "median_price": 405000,
+   "sales": 1872
+  }
+ ],
+ "cities": [
+  {
+   "city": "Davis",
+   "state": "CA",
+   "university": "University of California, Davis",
+   "sales": 941,
+   "median_price": 889000,
+   "median_ppsf": 493,
+   "median_dom": 11,
+   "dom_sales": 792,
+   "median_sqft": 1842,
+   "median_year_built": 1978
+  },
+  {
+   "city": "Pittsboro",
+   "state": "NC",
+   "university": "The University of North Carolina at Chapel Hill",
+   "sales": 92,
+   "median_price": 876986,
+   "median_ppsf": 302,
+   "median_dom": 38,
+   "dom_sales": 57,
+   "median_sqft": 2970,
+   "median_year_built": 2015
+  },
+  {
+   "city": "Chapel Hill",
+   "state": "NC",
+   "university": "The University of North Carolina at Chapel Hill",
+   "sales": 2705,
+   "median_price": 734000,
+   "median_ppsf": 277,
+   "median_dom": 10,
+   "dom_sales": 2202,
+   "median_sqft": 2677,
+   "median_year_built": 1997
+  },
+  {
+   "city": "Charlottesville",
+   "state": "VA",
+   "university": "University of Virginia",
+   "sales": 2759,
+   "median_price": 613000,
+   "median_ppsf": 270,
+   "median_dom": 7,
+   "dom_sales": 2049,
+   "median_sqft": 2376,
+   "median_year_built": 1990
+  },
+  {
+   "city": "Middleton",
+   "state": "WI",
+   "university": "University of Wisconsin-Madison",
+   "sales": 645,
+   "median_price": 611000,
+   "median_ppsf": 256,
+   "median_dom": 8,
+   "dom_sales": 560,
+   "median_sqft": 2497,
+   "median_year_built": 2000
+  },
+  {
+   "city": "Carrboro",
+   "state": "NC",
+   "university": "The University of North Carolina at Chapel Hill",
+   "sales": 205,
+   "median_price": 605000,
+   "median_ppsf": 316,
+   "median_dom": 7,
+   "dom_sales": 149,
+   "median_sqft": 1802,
+   "median_year_built": 1984
+  },
+  {
+   "city": "Ann Arbor",
+   "state": "MI",
+   "university": "University of Michigan",
+   "sales": 3007,
+   "median_price": 572000,
+   "median_ppsf": 259,
+   "median_dom": 7,
+   "dom_sales": 2448,
+   "median_sqft": 2221,
+   "median_year_built": 1966
+  },
+  {
+   "city": "Newberry",
+   "state": "FL",
+   "university": "University of Florida",
+   "sales": 152,
+   "median_price": 439995,
+   "median_ppsf": 185,
+   "median_dom": 87,
+   "dom_sales": 133,
+   "median_sqft": 2662,
+   "median_year_built": 2023
+  },
+  {
+   "city": "State College",
+   "state": "PA",
+   "university": "The Pennsylvania State University",
+   "sales": 1348,
+   "median_price": 430000,
+   "median_ppsf": 208,
+   "median_dom": 8,
+   "dom_sales": 908,
+   "median_sqft": 2124,
+   "median_year_built": 1982
+  },
+  {
+   "city": "Madison",
+   "state": "WI",
+   "university": "University of Wisconsin-Madison",
+   "sales": 5061,
+   "median_price": 421000,
+   "median_ppsf": 248,
+   "median_dom": 7,
+   "dom_sales": 4068,
+   "median_sqft": 1737,
+   "median_year_built": 1965
+  },
+  {
+   "city": "Savoy",
+   "state": "IL",
+   "university": "University of Illinois Urbana-Champaign",
+   "sales": 247,
+   "median_price": 402700,
+   "median_ppsf": 187,
+   "median_dom": 10,
+   "dom_sales": 212,
+   "median_sqft": 2151,
+   "median_year_built": 2010
+  },
+  {
+   "city": "West Lafayette",
+   "state": "IN",
+   "university": "Purdue University",
+   "sales": 1559,
+   "median_price": 379900,
+   "median_ppsf": 178,
+   "median_dom": 11,
+   "dom_sales": 1293,
+   "median_sqft": 2194,
+   "median_year_built": 2002
+  },
+  {
+   "city": "Athens",
+   "state": "GA",
+   "university": "University of Georgia",
+   "sales": 2805,
+   "median_price": 370000,
+   "median_ppsf": 197,
+   "median_dom": 27,
+   "dom_sales": 2278,
+   "median_sqft": 1902,
+   "median_year_built": 1992
+  },
+  {
+   "city": "Gainesville",
+   "state": "FL",
+   "university": "University of Florida",
+   "sales": 5467,
+   "median_price": 350000,
+   "median_ppsf": 204,
+   "median_dom": 25,
+   "dom_sales": 4372,
+   "median_sqft": 1735,
+   "median_year_built": 1987
+  },
+  {
+   "city": "Iowa City",
+   "state": "IA",
+   "university": "The University of Iowa",
+   "sales": 1909,
+   "median_price": 342000,
+   "median_ppsf": 176,
+   "median_dom": 24,
+   "dom_sales": 1248,
+   "median_sqft": 2034,
+   "median_year_built": 1976
+  },
+  {
+   "city": "Lafayette",
+   "state": "IN",
+   "university": "Purdue University",
+   "sales": 3053,
+   "median_price": 260000,
+   "median_ppsf": 163,
+   "median_dom": 9,
+   "dom_sales": 2603,
+   "median_sqft": 1649,
+   "median_year_built": 1979
+  },
+  {
+   "city": "Champaign",
+   "state": "IL",
+   "university": "University of Illinois Urbana-Champaign",
+   "sales": 2285,
+   "median_price": 240000,
+   "median_ppsf": 150,
+   "median_dom": 7,
+   "dom_sales": 1784,
+   "median_sqft": 1645,
+   "median_year_built": 1969
+  },
+  {
+   "city": "Urbana",
+   "state": "IL",
+   "university": "University of Illinois Urbana-Champaign",
+   "sales": 1131,
+   "median_price": 229900,
+   "median_ppsf": 144,
+   "median_dom": 8,
+   "dom_sales": 872,
+   "median_sqft": 1550,
+   "median_year_built": 1966
+  }
+ ]
+}

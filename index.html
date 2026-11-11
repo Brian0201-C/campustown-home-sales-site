@@ -1,31 +1,203 @@
 <!DOCTYPE html>
-<!-- A placeholder from the Home Sales template. Replace this file with your site's first page. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Under construction</title>
-  <!-- An empty icon, so the browser doesn't log an error looking for favicon.ico -->
+  <title>College-Town Home Prices</title>
+  <meta name="description" content="How home prices, price per square foot and days on market compare across 18 college towns, from the College-town home sales dataset.">
   <link rel="icon" href="data:,">
   <style>
-    :root { color-scheme: light dark; }
-    body {
-      max-width: 40rem;
-      margin: 0 auto;
-      padding: 3rem 1rem;
-      font-family: system-ui, sans-serif;
-      line-height: 1.5;
+    :root {
+      --bg: #f6f4ef; --card: #ffffff; --ink: #1d2733; --muted: #5d6875;
+      --line: #e2ddd3; --accent: #e8590c; --bar: #9fb3c8; --navy: #13294b;
+      color-scheme: light;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     }
-    footer { margin-top: 3rem; font-size: 0.875rem; opacity: 0.75; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.5; }
+    header { background: var(--navy); color: #fff; padding: 3rem 1rem 2.5rem; }
+    .wrap { max-width: 60rem; margin: 0 auto; padding: 0 1rem; }
+    header .eyebrow { letter-spacing: .12em; text-transform: uppercase; font-size: .75rem; opacity: .75; margin: 0; }
+    header h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); line-height: 1.1; margin: .4rem 0 .8rem; }
+    header p { max-width: 40rem; margin: 0; opacity: .9; }
+    main { padding: 2rem 0 3rem; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: .75rem; margin-bottom: 1.5rem; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; }
+    .stat b { display: block; font-size: 1.6rem; }
+    .stat span { color: var(--muted); font-size: .85rem; }
+    section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+    h2 { margin: 0 0 .25rem; font-size: 1.25rem; }
+    .sub { color: var(--muted); margin: 0 0 1rem; font-size: .92rem; }
+    .controls { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+    .controls button { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: .35rem .85rem; font: inherit; font-size: .88rem; cursor: pointer; color: var(--ink); }
+    .controls button[aria-pressed="true"] { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .bars { display: grid; gap: .3rem; }
+    .row { display: grid; grid-template-columns: 9.5rem 1fr 5.5rem; align-items: center; gap: .5rem; font-size: .88rem; }
+    .row .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .track, .fill { display: block; }
+    .track { height: 1.1rem; background: #f0ede6; border-radius: 4px; overflow: hidden; }
+    .fill { height: 100%; background: var(--bar); border-radius: 4px; transition: width .4s; }
+    .row.uiuc .fill { background: var(--accent); }
+    .row.uiuc .name { font-weight: 700; }
+    .row .val { text-align: right; font-variant-numeric: tabular-nums; }
+    .legend { font-size: .82rem; color: var(--muted); margin-top: .75rem; }
+    .legend i { display: inline-block; width: .8rem; height: .8rem; border-radius: 2px; background: var(--accent); vertical-align: -1px; margin-right: .3rem; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 36rem; }
+    th, td { padding: .55rem .5rem; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+    th:first-child, td:first-child { text-align: left; }
+    th { cursor: pointer; user-select: none; color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; }
+    th.sorted::after { content: " ▾"; }
+    th.sorted.asc::after { content: " ▴"; }
+    tr.uiuc td { background: #fff4ec; }
+    tr.uiuc td:first-child { font-weight: 700; }
+    .note { font-size: .88rem; color: var(--muted); }
+    .note li { margin-bottom: .35rem; }
+    footer { font-size: .82rem; color: var(--muted); padding-bottom: 2rem; }
+    @media (max-width: 34rem) { .row { grid-template-columns: 7rem 1fr 4.8rem; font-size: .8rem; } }
   </style>
 </head>
 <body>
-  <main>
-    <h1>This site is under construction</h1>
-    <p>It will show findings from the College-town home sales dataset.</p>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">College-town home sales</p>
+      <h1>Is Champaign–Urbana a bargain among college towns?</h1>
+      <p>Compare home prices, price per square foot and how fast homes sell across 18 cities near 11 university campuses. Champaign, Urbana and Savoy (University of Illinois) are highlighted.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="stats" id="stats"></div>
+
+    <section>
+      <h2 id="chart-title">Median sale price by city</h2>
+      <p class="sub">Pick a measure. Bars are sorted from highest to lowest.</p>
+      <div class="controls" role="group" aria-label="Measure">
+        <button data-m="median_price" aria-pressed="true">Median price</button>
+        <button data-m="median_ppsf" aria-pressed="false">Price per sq ft</button>
+        <button data-m="median_dom" aria-pressed="false">Days on market</button>
+      </div>
+      <div class="bars" id="bars"></div>
+      <p class="legend"><i></i>University of Illinois Urbana-Champaign area</p>
+    </section>
+
+    <section>
+      <h2>All cities</h2>
+      <p class="sub">Click a column heading to sort.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th data-k="city">City</th>
+            <th data-k="sales">Sales</th>
+            <th data-k="median_price" class="sorted">Median price</th>
+            <th data-k="median_ppsf">$ / sq ft</th>
+            <th data-k="median_sqft">Median sq ft</th>
+            <th data-k="median_dom">Days on market</th>
+            <th data-k="median_year_built">Median year built</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>How the numbers are calculated</h2>
+      <ul class="note" id="rules"></ul>
+    </section>
   </main>
-  <footer>
-    <p>Data: College-town home sales dataset, version 1.0 (2026). University of Illinois-Deloitte Foundation Center for Business Emerging Technologies. Data collected March 2026.</p>
+
+  <footer class="wrap">
+    Data: College-town home sales dataset, version 1.0 (2026). University of Illinois-Deloitte Foundation Center for Business Emerging Technologies. Data collected March 2026.
   </footer>
+
+  <script>
+    const fmt$ = n => n == null ? "–" : "$" + n.toLocaleString("en-US");
+    const fmtN = n => n == null ? "–" : n.toLocaleString("en-US");
+    const MEASURES = {
+      median_price: { title: "Median sale price by city", f: fmt$ },
+      median_ppsf:  { title: "Median price per square foot by city", f: fmt$ },
+      median_dom:   { title: "Median days on market by city (listing to contract)", f: n => n == null ? "–" : n + " days" }
+    };
+    const isUIUC = c => c.university.startsWith("University of Illinois");
+
+    fetch("data/city_summary.json")
+      .then(r => r.json())
+      .then(d => {
+        const cities = d.cities;
+        const cu = cities.filter(c => c.city === "Champaign")[0];
+        const rank = [...cities].sort((a, b) => a.median_price - b.median_price).indexOf(cu) + 1;
+        document.getElementById("stats").innerHTML = [
+          [fmtN(d.rows_used), "sales analysed"],
+          [cities.length, "cities"],
+          [fmt$(d.overall_median_price), "median price, all cities"],
+          [fmt$(cu.median_price), "median price in Champaign (#" + rank + " cheapest)"]
+        ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+
+        // Bar chart
+        let measure = "median_price";
+        function drawBars() {
+          const m = MEASURES[measure];
+          document.getElementById("chart-title").textContent = m.title;
+          const list = [...cities].sort((a, b) => b[measure] - a[measure]);
+          const max = Math.max(...list.map(c => c[measure]));
+          document.getElementById("bars").innerHTML = list.map(c => `
+            <div class="row ${isUIUC(c) ? "uiuc" : ""}">
+              <span class="name" title="${c.city}, ${c.state}">${c.city}, ${c.state}</span>
+              <span class="track"><span class="fill" style="width:${(c[measure] / max * 100).toFixed(1)}%"></span></span>
+              <span class="val">${m.f(c[measure])}</span>
+            </div>`).join("");
+        }
+        document.querySelectorAll(".controls button").forEach(b => b.addEventListener("click", () => {
+          measure = b.dataset.m;
+          document.querySelectorAll(".controls button").forEach(x => x.setAttribute("aria-pressed", x === b));
+          drawBars();
+        }));
+        drawBars();
+
+        // Table
+        let sortKey = "median_price", asc = false;
+        function drawTable() {
+          const list = [...cities].sort((a, b) => {
+            const x = a[sortKey], y = b[sortKey];
+            const r = typeof x === "string" ? x.localeCompare(y) : x - y;
+            return asc ? r : -r;
+          });
+          document.getElementById("tbody").innerHTML = list.map(c => `
+            <tr class="${isUIUC(c) ? "uiuc" : ""}">
+              <td>${c.city}, ${c.state}</td>
+              <td>${fmtN(c.sales)}</td>
+              <td>${fmt$(c.median_price)}</td>
+              <td>${fmt$(c.median_ppsf)}</td>
+              <td>${fmtN(c.median_sqft)}</td>
+              <td>${c.median_dom ?? "–"}</td>
+              <td>${c.median_year_built}</td>
+            </tr>`).join("");
+          document.querySelectorAll("th").forEach(th => {
+            th.classList.toggle("sorted", th.dataset.k === sortKey);
+            th.classList.toggle("asc", th.dataset.k === sortKey && asc);
+          });
+        }
+        document.querySelectorAll("th").forEach(th => th.addEventListener("click", () => {
+          if (sortKey === th.dataset.k) asc = !asc;
+          else { sortKey = th.dataset.k; asc = th.dataset.k === "city"; }
+          drawTable();
+        }));
+        drawTable();
+
+        // Rules
+        const [lo, hi] = d.price_rule;
+        document.getElementById("rules").innerHTML = [
+          `<b>Price rule:</b> only sales from ${fmt$(lo)} to ${fmt$(hi)} are included. That leaves out ${fmtN(d.rows_excluded_price)} of the ${fmtN(d.total_rows)} sales, which have implausible prices (as low as $0 or as high as $81.5 million).`,
+          `All figures are medians, which are less affected by unusual sales than averages. Prices are rounded to whole dollars.`,
+          `<b>Price per square foot</b> uses only homes with a living area above 0 sq ft.`,
+          `<b>Days on market</b> is the number of days from <code>list_date</code> to <code>contract_date</code>, counted only for sales that have both dates. A missing date is not treated as zero. Many homes sold without a listing (often new construction), so this figure describes listed homes only.`,
+          `Sales are counted by <code>listing_id</code>. Rows that share a street address are separate units and are kept.`,
+          `Sales closed from ${d.sale_years[0]} to ${d.sale_years[1]}. Every number is computed from <code>data/college_town_home_sales.csv</code> by <code>scripts/build_city_summary.py</code>.`
+        ].map(x => `<li>${x}</li>`).join("");
+      })
+      .catch(() => {
+        document.getElementById("bars").textContent = "The data file could not be loaded.";
+      });
+  </script>
 </body>
 </html>
